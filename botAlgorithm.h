@@ -22,8 +22,8 @@ int analyzePosition(PlayingBoard board, int player){
 }
 
 int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
-    if(checkWin(board.getBoard(), 1).size() != 0){
-        return player == 1 ? INT_MIN : INT_MAX;
+    if(checkWin(board.getBoard(), player).size() != 0){
+        return player == 2 ? INT_MIN : INT_MAX;
     }
     if(depth == 0){
         return analyzePosition(board, player);
@@ -51,7 +51,7 @@ int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
             }
             alpha = std::max(alpha, value);
         }
-        return value;
+        return maxEval;
     }
 
     else{
@@ -73,7 +73,7 @@ int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
             }
             beta = std::min(beta, value);
         }
-        return value;
+        return minEval;
     }
 }
 
@@ -83,7 +83,7 @@ void chooseMove(PlayingBoard &board, int player){
     std::uniform_int_distribution<int> distribution(1, 7);
     int col = distribution(gen);
 
-    col = alphaBeta(board, 3, INT_MIN, INT_MAX, player);
+    col = alphaBeta(board, DEPTH, INT_MIN, INT_MAX, player);
 
     if(board.placePiece(bestMove, player).first == -1){
         chooseMove(board, player);
@@ -91,7 +91,7 @@ void chooseMove(PlayingBoard &board, int player){
     else{
         getSurface(board, player);
         //board.placePiece(bestMove, player);
-        std::cout<<"Player "<<player<<" placed a piece in column "<<col<<std::endl;
+        std::cout<<"Player "<<player<<" placed a piece in column "<<bestMove<<std::endl;
     }
 }
 
