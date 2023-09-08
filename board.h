@@ -6,6 +6,7 @@
 
 struct piece{
     int color; //red 1 black 2; empty 0
+    bool pseudo = true; //for minimax
     //struct in case needed
 };
 
@@ -46,11 +47,34 @@ class PlayingBoard{
                             break;
                         }
                         board[i][n].color = color;
+                        board[i][n].pseudo = false;
                         return std::make_pair(i, n);
                     }
                 }
             }
             return std::make_pair(-1, -1);
+        }
+
+        void fillPseudo(int color){
+            for(int i = 0; i<6; i++){
+                for(int n = 0; n<7; n++){
+                    if(board[i][n].color==0){
+                        board[i][n].color = color;
+                        board[i][n].pseudo = true;
+                    }
+                }
+            }
+        }
+
+        void removePseudo(){
+            for(int i = 0; i<6; i++){
+                for(int n = 0; n<7; n++){
+                    if(board[i][n].pseudo==true){
+                        board[i][n].color = 0;
+                        board[i][n].pseudo = false;
+                    }
+                }
+            }
         }
 
         std::vector<std::vector<piece>> getBoard(){

@@ -3,8 +3,12 @@
 #include "board.h"
 #include <random>
 
+//std::vector<std::pair<int, int>> getSurface(PlayingBoard board){
+//
+//}
+
 //int analyzePosition(PlayingBoard board, int player){
-//    for(int i)
+//    
 //}
 void chooseMove(PlayingBoard &board, int player){
     std::random_device rd;
