@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-int DEPTH = 3;
+int DEPTH = 3; int bestMove = 0;
 
 struct piece{
     int color; //red 1 black 2; empty 0

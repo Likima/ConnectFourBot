@@ -22,11 +22,15 @@ int analyzePosition(PlayingBoard board, int player){
 }
 
 int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
-    if(depth == 0 || checkWin(board.getBoard(), player).size() != 0){
+    if(checkWin(board.getBoard(), 1).size() != 0){
+        return player == 1 ? INT_MIN : INT_MAX;
+    }
+    if(depth == 0){
         return analyzePosition(board, player);
     }
 
     int maxEval, minEval, value;
+    maxEval = 0; minEval = 0;
 
     if(player == 1){
         int maxEval = INT_MIN;
@@ -35,27 +39,39 @@ int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
                 continue;
             }
             value = std::max(value, alphaBeta(board, depth-1, alpha, beta, 2));
-            alpha = std::max(alpha, value);
+            if(value>maxEval){
+                maxEval = std::max(maxEval, value);
+                if(depth == DEPTH){
+                    bestMove = i;
+                }
+            }
             board.removePiece(i);
             if(alpha >= beta){
                 break;
             }
+            alpha = std::max(alpha, value);
         }
         return value;
     }
 
     else{
-        int value = INT_MAX;
+        int minEval = INT_MAX;
         for(int i = 0; i<7; i++){
             if(board.placePiece(i, player).first == -1){
                 continue;
             }
-            value = std::min(value, alphaBeta(board, depth-1, alpha, beta, 1));
-            beta = std::min(beta, value);
+            value = alphaBeta(board, depth-1, alpha, beta, 1);
+            if(value<minEval){
+                minEval = std::min(minEval, value);
+                if(depth == DEPTH){
+                    bestMove = i;
+                }
+            }
             board.removePiece(i);
             if(alpha >= beta){
                 break;
             }
+            beta = std::min(beta, value);
         }
         return value;
     }
@@ -69,11 +85,12 @@ void chooseMove(PlayingBoard &board, int player){
 
     col = alphaBeta(board, 3, INT_MIN, INT_MAX, player);
 
-    if(board.placePiece(col, player).first == -1){
+    if(board.placePiece(bestMove, player).first == -1){
         chooseMove(board, player);
     }
     else{
         getSurface(board, player);
+        //board.placePiece(bestMove, player);
         std::cout<<"Player "<<player<<" placed a piece in column "<<col<<std::endl;
     }
 }
