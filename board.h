@@ -4,12 +4,11 @@
 #include <vector>
 #include <iostream>
 
-int DEPTH = 7; int bestMove = 0;
+int DEPTH = 8; int bestMove = 0;
 
 struct piece{
     int color; //red 1 black 2; empty 0
-    bool pseudo = true; //for minimax
-    //struct in case needed
+    bool pseudo = true; 
 };
 
 std::vector<std::pair<int,int>> checkWin(const std::vector<std::vector<piece>>& board, int player);
@@ -31,11 +30,12 @@ class PlayingBoard{
         }
 
         void printBoard(){
+
             for(int i = 0; i<6; i++){
                 for(int n = 0; n<7; n++){
                     if(board[i][n].color==0){std::cout<<" . ";}
-                    else if(board[i][n].color==1){std::cout<<" X ";}
-                    else std::cout<<" O ";
+                    else if(board[i][n].color==1){std::cout<<"\033[0;31m"<<" O "<<"\033[0m";}
+                    else std::cout<<"\033[0;36m"<<" O "<<"\033[0m";
                 }
                 std::cout<<std::endl;
             }

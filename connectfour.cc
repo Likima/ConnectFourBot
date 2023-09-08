@@ -2,6 +2,17 @@
 #include "board.h"
 #include "botAlgorithm.h"
 
+bool checkDraw(const std::vector<std::vector<piece>>& board){
+    for(int x = 0; x<6; x++){
+        for(int y = 0; y<7; y++){
+            if(board[x][y].color == 0){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 std::vector<std::pair<int,int>> checkWin(const std::vector<std::vector<piece>>& board, int player) {
     // Check rows and columns for a win
     std::vector<std::pair<int,int>> win;
@@ -79,6 +90,10 @@ int main(){
     }
 
     while(true){
+        if(checkDraw(board.getBoard())){
+            std::cout<<"Draw!"<<std::endl;
+            break;
+        }
         if(turn%2+1 == player){
             std::cout<<"Enter a column: ";
             std::cin>>column;
