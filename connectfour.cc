@@ -1,12 +1,6 @@
 #include <iostream>
 #include "board.h"
-
-bool gameIsOver(){
-    
-    
-    return false;
-
-}
+#include "botAlgorithm.h"
 
 bool checkWin(const std::vector<std::vector<piece>>& board, int player) {
     // Check rows and columns for a win
@@ -56,19 +50,35 @@ bool checkWin(const std::vector<std::vector<piece>>& board, int player) {
 int main(){
     PlayingBoard board;
     int column;
-    int turn = 1;
+    int turn = 2;
     board.printBoard();
 
+    int player;
+    std::cout<<"Enter 1 for player 1 or 2 for player 2: ";
+    std::cin>>player;
+    if(player != 1 && player != 2){
+        std::cout<<"Invalid player"<<std::endl;
+        return 0;
+    }
+
     while(true){
-        std::cout<<"Enter a column: ";
-        std::cin>>column;
-        if(column < 0 || column > 7){
-            std::cout<<"Invalid column"<<std::endl;
-            continue;
+        if(turn%2+1 == player){
+            std::cout<<"Enter a column: ";
+            std::cin>>column;
+            if(column < 0 || column > 7){
+                std::cout<<"Invalid column"<<std::endl;
+                continue;
+            }
+            if(board.placePiece(column-1, (turn%2)+1) == std::make_pair(-1, -1)){
+                std::cout<<"Column is full"<<std::endl;
+                continue;
+            }
         }
-        if(!board.placePiece(column-1, (turn%2)+1)){
-            std::cout<<"Column is full"<<std::endl;
-            continue;
+
+        else{
+            //bot
+            std::cout<<"Bot's turn"<<std::endl;
+            chooseMove(board, (turn%2)+1);
         }
 
         board.printBoard();

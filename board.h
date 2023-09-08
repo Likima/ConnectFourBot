@@ -9,6 +9,8 @@ struct piece{
     //struct in case needed
 };
 
+bool checkWin(const std::vector<std::vector<piece>>& board, int player);
+
 class PlayingBoard{
     public:
         PlayingBoard(){
@@ -36,7 +38,7 @@ class PlayingBoard{
             }
         }
 
-        bool placePiece(int column, int color){
+        std::pair<int, int> placePiece(int column, int color){
             for(int i = 0; i<6; i++){
                 for(int n = 0; n<7; n++){
                     if(n==column && board[i][n].color==0){
@@ -44,11 +46,11 @@ class PlayingBoard{
                             break;
                         }
                         board[i][n].color = color;
-                        return true;
+                        return std::make_pair(i, n);
                     }
                 }
             }
-            return false;
+            return std::make_pair(-1, -1);
         }
 
         std::vector<std::vector<piece>> getBoard(){
