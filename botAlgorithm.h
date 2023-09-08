@@ -23,7 +23,7 @@ int analyzePosition(PlayingBoard board, int player){
 
 int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
     if(checkWin(board.getBoard(), player).size() != 0){
-        return player == 2 ? INT_MIN : INT_MAX;
+        return player == 1 ? INT_MAX : INT_MIN;
     }
     if(depth == 0){
         return analyzePosition(board, player);
@@ -89,7 +89,7 @@ void chooseMove(PlayingBoard &board, int player){
         chooseMove(board, player);
     }
     else{
-        getSurface(board, player);
+        //getSurface(board, player);
         //board.placePiece(bestMove, player);
         std::cout<<"Player "<<player<<" placed a piece in column "<<bestMove<<std::endl;
     }
