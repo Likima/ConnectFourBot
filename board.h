@@ -4,13 +4,15 @@
 #include <vector>
 #include <iostream>
 
+int DEPTH = 3;
+
 struct piece{
     int color; //red 1 black 2; empty 0
     bool pseudo = true; //for minimax
     //struct in case needed
 };
 
-bool checkWin(const std::vector<std::vector<piece>>& board, int player);
+std::vector<std::pair<int,int>> checkWin(const std::vector<std::vector<piece>>& board, int player);
 
 class PlayingBoard{
     public:
@@ -81,12 +83,32 @@ class PlayingBoard{
             return board;
         }
 
+        void removePiece(int col){
+            for(int i = 0; i<6; i++){
+                for(int n = 0; n<7; n++){
+                    if(n==col && board[i][n].color==0){
+                        if(i != 5 && board[i+1][n].color==0){
+                            break;
+                        }
+                        board[i][n].color = 0;
+                    }
+                }
+            }            
+        }
+
         void removePiece(int x, int y){
             board[x][y].color = 0;
         }
 
+        void setScore(int player, int score){
+            if(player == 1) firstScore = score;
+            else secondScore = score;
+        }
+
     private:
         std::vector<std::vector<piece>> board;
+        int firstScore = 0;
+        int secondScore = 0;
 };
 
 #endif
