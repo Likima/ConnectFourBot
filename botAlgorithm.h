@@ -1,7 +1,6 @@
 #ifndef BOTALGORITHM_H
 #define BOTALGORITHM_H
 #include "board.h"
-#include <random>
 #include <limits>
 
 std::vector<std::pair<int, int>> getSurface(PlayingBoard board, int color){
@@ -47,7 +46,7 @@ int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
             }
             board.removePiece(i);
             
-            if(alpha >= beta){
+            if(beta <= alpha){
                 break;
             }
             alpha = std::max(alpha, value);
@@ -80,18 +79,13 @@ int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
 }
 
 void chooseMove(PlayingBoard &board, int player){
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> distribution(1, 7);
-    int col = distribution(gen);
-
-    col = alphaBeta(board, DEPTH, INT_MIN, INT_MAX, player);
+    int col = alphaBeta(board, DEPTH, INT_MIN, INT_MAX, player);
 
     if(board.placePiece(bestMove, player).first == -1){
         chooseMove(board, player);
     }
     else{
-        std::cout<<"Player "<<player<<" placed a piece in column "<<bestMove<<std::endl;
+        std::cout<<"Player "<<player<<" placed a piece in column "<<bestMove+1<<std::endl;
     }
 }
 
