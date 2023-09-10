@@ -16,7 +16,6 @@ std::vector<std::pair<int,int>> checkWin(const std::vector<std::vector<piece>>& 
 class PlayingBoard{
     public:
         PlayingBoard(){
-            //std::cout<<"board created"<<std::endl;
             std::vector<piece> row;
             piece empty;
             empty.color = 0;

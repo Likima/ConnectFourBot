@@ -7,31 +7,21 @@
 std::vector<std::pair<int, int>> getSurface(PlayingBoard board, int color){
     std::vector<std::pair<int, int>> surface;
     board.fillPseudo(color);
-    //board.printBoard();
     surface = checkWin(board.getBoard(), color);
-    //for(int i = 0; i<surface.size(); i++){
-    //    std::cout<<surface[i].first<<" "<<surface[i].second<<std::endl;
-    //    //board.getBoard()[surface[i].first][surface[i].second].pseudo = true;
-    //}
     board.removePseudo();
     return surface;
 }
 
 int analyzePosition(PlayingBoard board){
-    //std::vector<std::pair<int, int>> surface = getSurface(board, player);
-    //return player == 1 ? getSurface(board, player).size() : -getSurface(board, player).size();
-    //if(!checkWin(board.getBoard(), 1).empty()) return INT_MAX;
-    //if(!checkWin(board.getBoard(), 2).empty()) return INT_MIN;
     return(getSurface(board,1).size() - getSurface(board,2).size());  
 }
 
 int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
+
     if(!checkWin(board.getBoard(), player).empty()){
-        //std::cout<<"here"<<std::endl;
         return (player == 1 ? INT_MAX : INT_MIN);
     }
     if(!checkWin(board.getBoard(), player%2+1).empty()){
-        //std::cout<<"here"<<std::endl;
         return (player == 1 ? INT_MIN : INT_MAX);
     }
     
@@ -101,8 +91,6 @@ void chooseMove(PlayingBoard &board, int player){
         chooseMove(board, player);
     }
     else{
-        //getSurface(board, player);
-        //board.placePiece(bestMove, player);
         std::cout<<"Player "<<player<<" placed a piece in column "<<bestMove<<std::endl;
     }
 }
