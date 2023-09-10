@@ -29,7 +29,6 @@ class PlayingBoard{
         }
 
         void printBoard(){
-
             for(int i = 0; i<6; i++){
                 for(int n = 0; n<7; n++){
                     if(board[i][n].color==0){std::cout<<" . ";}
@@ -42,15 +41,13 @@ class PlayingBoard{
 
         std::pair<int, int> placePiece(int column, int color){
             for(int i = 0; i<6; i++){
-                for(int n = 0; n<7; n++){
-                    if(n==column && board[i][n].color==0){
-                        if(i != 5 && board[i+1][n].color==0){
-                            break;
-                        }
-                        board[i][n].color = color;
-                        board[i][n].pseudo = false;
-                        return std::make_pair(i, n);
+                if(board[i][column].color==0){
+                    if(i != 5 && board[i+1][column].color==0){
+                        continue;
                     }
+                    board[i][column].color = color;
+                    board[i][column].pseudo = false;
+                    return std::make_pair(i, column);
                 }
             }
             return std::make_pair(-1, -1);
