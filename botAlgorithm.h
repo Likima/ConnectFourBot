@@ -2,6 +2,7 @@
 #define BOTALGORITHM_H
 #include "board.h"
 #include <random>
+#include <limits>
 
 std::vector<std::pair<int, int>> getSurface(PlayingBoard board, int color){
     std::vector<std::pair<int, int>> surface;
@@ -18,44 +19,51 @@ std::vector<std::pair<int, int>> getSurface(PlayingBoard board, int color){
 
 int analyzePosition(PlayingBoard board, int player){
     //std::vector<std::pair<int, int>> surface = getSurface(board, player);
-    return player == 1 ? getSurface(board, player).size() : -getSurface(board, player).size();  
+    //return player == 1 ? getSurface(board, player).size() : -getSurface(board, player).size();
+    if(checkWin(board.getBoard(), 1).size() != 0) return INT_MAX;
+    if(checkWin(board.getBoard(), 2).size() != 0) return INT_MIN;
+    return(getSurface(board,1).size() - getSurface(board,2).size());  
 }
 
-int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
+int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
     if(checkWin(board.getBoard(), player).size() != 0){
         return player == 1 ? INT_MAX : INT_MIN;
     }
+    if(checkWin(board.getBoard(), player%2+1).size() != 0){
+        return player == 1 ? INT_MIN : INT_MAX;
+    }
+    
     if(depth == 0){
         return analyzePosition(board, player);
     }
 
-    int maxEval, minEval, value;
-    maxEval = 0; minEval = 0;
+    int maxEval, minEval;
+    int value = 0;
 
     if(player == 1){
-        int maxEval = INT_MIN;
+        maxEval = INT_MIN;
         for(int i = 0; i<7; i++){
             if(board.placePiece(i, player).first == -1){
                 continue;
             }
-            value = std::max(value, alphaBeta(board, depth-1, alpha, beta, 2));
+            value = alphaBeta(board, depth-1, alpha, beta, 2);
             if(value>maxEval){
                 maxEval = std::max(maxEval, value);
-                if(depth == DEPTH){
-                    bestMove = i;
-                }
+                //if(depth == DEPTH){
+                bestMove = i;
+                //}
             }
             board.removePiece(i);
-            if(alpha >= beta){
+            alpha = std::max(alpha, value);
+            if(value >= beta){
                 break;
             }
-            alpha = std::max(alpha, value);
         }
         return maxEval;
     }
 
     else{
-        int minEval = INT_MAX;
+        minEval = INT_MAX;
         for(int i = 0; i<7; i++){
             if(board.placePiece(i, player).first == -1){
                 continue;
@@ -63,15 +71,15 @@ int alphaBeta(PlayingBoard board, int depth, int alpha, int beta, int player){
             value = alphaBeta(board, depth-1, alpha, beta, 1);
             if(value<minEval){
                 minEval = std::min(minEval, value);
-                if(depth == DEPTH){
-                    bestMove = i;
-                }
+                //if(depth == DEPTH){
+                bestMove = i;
+                //}
             }
             board.removePiece(i);
-            if(alpha >= beta){
+            beta = std::min(beta, value);
+            if(value <= alpha){
                 break;
             }
-            beta = std::min(beta, value);
         }
         return minEval;
     }

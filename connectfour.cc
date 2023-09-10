@@ -110,11 +110,12 @@ int main(){
         else{
             //bot
             std::cout<<"Bot's turn"<<std::endl;
-            chooseMove(board, (turn%2)+1);
+            //player == 1 ? chooseMove(board, 2) : chooseMove(board, 1);
         }
 
         board.printBoard();
 
+        board.removePiece(column);
         //for(int x = 0; x<checkWin(board.getBoard(), (turn%2)+1).size(); x++){
         //    std::cout<<"("<<checkWin(board.getBoard(), (turn%2)+1)[x].first<<", "<<checkWin(board.getBoard(), (turn%2)+1)[x].second<<")"<<std::endl;
         //}
