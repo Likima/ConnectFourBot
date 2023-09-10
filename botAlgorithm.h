@@ -18,7 +18,7 @@ int analyzePosition(PlayingBoard board){
 int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
 
     if(!checkWin(board.getBoard(), player).empty()){
-        return (player == 1 ? INT_MAX : INT_MIN);
+        return (player == 1 ? INT_MIN : INT_MAX);
     }
     if(!checkWin(board.getBoard(), player%2+1).empty()){
         return (player == 1 ? INT_MIN : INT_MAX);
