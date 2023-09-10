@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-int DEPTH = 3; int bestMove = 0;
+int DEPTH = 5; int bestMove = 0;
 
 struct piece{
     int color; //red 1 black 2; empty 0
@@ -85,13 +85,9 @@ class PlayingBoard{
 
         void removePiece(int col){
             for(int i = 0; i<6; i++){
-                for(int n = 0; n<7; n++){
-                    if(n==col && board[i][n].color==0){
-                        if(i != 5 && board[i+1][n].color==0){
-                            break;
-                        }
-                        board[i][n].color = 0;
-                    }
+                if(board[i][col].color!=0){
+                    board[i][col].color = 0;
+                    break;
                 }
             }            
         }
