@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-int DEPTH = 7; int bestMove = 0;
+int DEPTH = 9; int bestMove = 0;
 
 struct piece{
     int color; //red 1 black 2; empty 0
@@ -37,6 +37,10 @@ class PlayingBoard{
                 }
                 std::cout<<std::endl;
             }
+            for(int n = 1; n<8; n++){
+                std::cout<<" "<<n<<" ";
+            }
+            std::cout<<std::endl;
         }
 
         std::pair<int, int> placePiece(int column, int color){

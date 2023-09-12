@@ -79,8 +79,15 @@ int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
 }
 
 void chooseMove(PlayingBoard &board, int player){
-    int col = alphaBeta(board, DEPTH, INT_MIN, INT_MAX, player);
 
+    int adder=0;
+    for(int i = 0; i<7; i++){
+        if(board.getBoard()[0][i].color != 0) adder++;
+    }
+    DEPTH = 8+((int)adder/2);
+
+    int col = alphaBeta(board, DEPTH, INT_MIN, INT_MAX, player);
+    
     if(board.placePiece(bestMove, player).first == -1){
         chooseMove(board, player);
     }
