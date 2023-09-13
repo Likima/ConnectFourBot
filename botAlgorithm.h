@@ -3,6 +3,8 @@
 #include "board.h"
 #include <limits>
 
+//optimize code such that depth can be increased
+
 std::vector<std::pair<int, int>> getSurface(PlayingBoard board, int color){
     std::vector<std::pair<int, int>> surface;
     board.fillPseudo(color);
@@ -16,7 +18,8 @@ int analyzePosition(PlayingBoard board){
 }
 
 int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
-
+    analyzedPositions++;
+    if(checkDraw(board.getBoard())) return 0;
     if(!checkWin(board.getBoard(), player).empty()){
         return (player == 1 ? INT_MIN : INT_MAX);
     }
@@ -80,20 +83,26 @@ int alphaBeta(PlayingBoard &board, int depth, int alpha, int beta, int player){
 
 void chooseMove(PlayingBoard &board, int player){
 
-    int adder=0;
-    for(int i = 0; i<7; i++){
-        if(board.getBoard()[0][i].color != 0) adder++;
-    }
-    DEPTH = 8+((int)adder/2);
+    //int adder=0;
+    //for(int i = 0; i<7; i++){
+    //    if(board.getBoard()[0][i].color != 0) adder++;
+    //}
+    int adder = (42-board.getEmptySquares())/8;
+    DEPTH = 8+(adder);
 
     int col = alphaBeta(board, DEPTH, INT_MIN, INT_MAX, player);
-    
+    if(bestMove==-1){
+        std::cout<<"I Have Lost :("<<std::endl;
+        return;
+    }
+
     if(board.placePiece(bestMove, player).first == -1){
         chooseMove(board, player);
     }
     else{
         std::cout<<"Player "<<player<<" placed a piece in column "<<bestMove+1<<std::endl;
     }
+    bestMove = -1;
 }
 
 #endif

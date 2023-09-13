@@ -4,14 +4,18 @@
 #include <vector>
 #include <iostream>
 
-int DEPTH = 9; int bestMove = 0;
+int DEPTH = 8; int bestMove = 0; int analyzedPositions = 0;
+
+//try to sort moves based on possible best moves -> worst moves
 
 struct piece{
     int color; //red 1 black 2; empty 0
     bool pseudo = true; 
 };
 
-std::vector<std::pair<int,int>> checkWin(const std::vector<std::vector<piece>>& board, int player);
+std::vector<std::pair<int,int>> checkWin(const std::vector<std::vector<piece>>&, int);
+bool checkDraw(const std::vector<std::vector<piece>>&);
+
 
 class PlayingBoard{
     public:
@@ -101,10 +105,19 @@ class PlayingBoard{
             else secondScore = score;
         }
 
+        void decreaseEmptySquares(){
+            emptySquares--;
+        }
+
+        int getEmptySquares(){
+            return emptySquares;
+        }
+
     private:
         std::vector<std::vector<piece>> board;
         int firstScore = 0;
         int secondScore = 0;
+        int emptySquares = 42;
 };
 
 #endif

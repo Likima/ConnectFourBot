@@ -98,11 +98,19 @@ int main(){
                 continue;
             }
         }
+        //if(turn%2+1 == player){
+        //    player == 2 ? chooseMove(board, 2) : chooseMove(board, 1);
+        //    std::cout<<analyzedPositions<<" positions analyzed"<<std::endl;
+        //    analyzedPositions = 0;
+        //}
 
         else{
             //bot
-            std::cout<<"Bot's turn"<<std::endl;
+            std::cout<<"Bot Is Thinking..."<<std::endl;
             player == 1 ? chooseMove(board, 2) : chooseMove(board, 1);
+            if(bestMove == -1){break;}
+            std::cout<<analyzedPositions<<" positions analyzed"<<std::endl;
+            analyzedPositions = 0;
         }
 
         board.printBoard();
@@ -112,6 +120,7 @@ int main(){
             break;
         }
         turn++;
+        board.decreaseEmptySquares();
 
     }
     return 0;    
